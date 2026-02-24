@@ -21,7 +21,7 @@ Statische Website zur Dokumentation der historischen Bergbautechnik des **Feuers
 
 - Im Repo: **Settings → Pages → Source** auf **GitHub Actions** stellen (nicht „Deploy from a branch“).
 - Nach Push auf `main` baut der Workflow automatisch; die Seite ist dann unter:
-  **https://astrogolem224.github.io/feuersetzen/**
+  **https://astrogolem224.github.io/Feuersetzen/**
 
 ## Entwicklung
 
