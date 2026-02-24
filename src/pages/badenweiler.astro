@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import ContentBlock from '../components/ContentBlock.astro';
+import SupplementaryBlock from '../components/SupplementaryBlock.astro';
+import slidesData from '../content/slides.json';
+
+const chapter = slidesData.chapters.find((c: any) => c.id === 'badenweiler');
+const slides = chapter?.slides || [];
+---
+<BaseLayout title="Badenweiler – Geologie & Bergbau" currentPage="badenweiler">
+  <SectionHeader
+    title="Badenweiler – Geologie & Bergbau"
+    subtitle="Das Quarzriff am Schwarzwaldrand"
+  />
+
+  <section class="section">
+    <p class="section-intro">
+      Badenweiler liegt am westlichen Rand des südlichen Schwarzwalds, direkt an der
+      Schwarzwald-Randverwerfung zum Oberrheingraben. Die tektonischen Verwerfungen schufen
+      Aufstiegswege für hydrothermale Lösungen, die die charakteristischen Erzgänge bildeten.
+    </p>
+
+    <h2>Geologie</h2>
+    {slides.filter((s: any) => s.number >= 10 && s.number <= 14).map((slide: any) => (
+      <ContentBlock slide={slide} />
+    ))}
+
+    <SupplementaryBlock
+      sourceLabel="Ergänzende Information"
+      sourceUrl="http://www.clara-mineralien.de/blackforest/blackforestsouth/bergbau-in-badenweiler.html"
+      sourceName="Clara-Mineralien.de – Bergbau in Badenweiler"
+    >
+      <p>
+        Die reichen Erzlagerstätten Badenweilers entstanden durch das Absinken des Oberrheingrabens
+        während des Tertiärs. Entlang der dabei entstandenen Bruchzone zwischen Schwarzwald und Vogesen
+        stiegen hydrothermale Wässer auf und lagerten Baryt, Fluorit sowie verschiedene Erze
+        (hauptsächlich Galenit, Sphalerit und Chalkopyrit) an den Rändern eines Quarzgangs ab.
+        Diese verkieselte Zone bildet ein markantes, 6 Kilometer langes Quarzriff, das sich
+        deutlich in der Landschaft abzeichnet.
+      </p>
+    </SupplementaryBlock>
+
+    <h2>Bergbauspuren und feuergesetzte Abbaue</h2>
+    {slides.filter((s: any) => s.number >= 15 && s.number <= 27).map((slide: any) => (
+      <ContentBlock slide={slide} />
+    ))}
+
+    <h2>Archäologische Funde und Grabungen</h2>
+    {slides.filter((s: any) => s.number >= 28 && s.number <= 30).map((slide: any) => (
+      <ContentBlock slide={slide} />
+    ))}
+
+    <SupplementaryBlock
+      sourceLabel="Ergänzende Information"
+      sourceUrl="http://www.schwarzwald-mineralien.de/Badenweiler_Bergbau.html"
+      sourceName="Schwarzwald-Mineralien.de – Bergbau Badenweiler"
+    >
+      <p>
+        Der Bergbau in Badenweiler ist seit mindestens 1028 urkundlich belegt. Es gibt Hinweise
+        auf römischen Bergbau, basierend auf Erzmaterial, das in den Ruinen der römischen
+        Therme gefunden wurde. Die Lagerstätten wurden im Mittelalter unter verschiedenen
+        Herrschaften abgebaut – den Bischöfen von Basel, Österreich und den Markgrafen von Baden.
+        Die Holzkohleschichten in den Halden bezeugen die intensive Nutzung des Feuersetzens.
+      </p>
+    </SupplementaryBlock>
+  </section>
+</BaseLayout>

@@ -1,0 +1,48 @@
+---
+import { Image } from 'astro:assets';
+
+interface ImageItem {
+  file: string;
+  caption?: string;
+}
+
+interface Props {
+  images: ImageItem[];
+  layout?: 'single' | 'dual' | 'grid';
+}
+
+const { images, layout = 'grid' } = Astro.props;
+
+const imageModules = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/*.*', { eager: true });
+
+function getImage(filename: string) {
+  const key = `/src/assets/images/${filename}`;
+  return imageModules[key]?.default;
+}
+
+const galleryClass = layout === 'single' ? 'image-gallery single'
+  : layout === 'dual' ? 'image-gallery dual'
+  : 'image-gallery';
+---
+<div class={galleryClass}>
+  {images.map(({ file, caption }) => {
+    const imageSrc = getImage(file);
+    return imageSrc ? (
+      <div class="gallery-item">
+        <Image
+          src={imageSrc}
+          alt={caption || ''}
+          width={800}
+          quality={80}
+          format="webp"
+          loading="lazy"
+        />
+        {caption && <div class="gallery-caption">{caption}</div>}
+      </div>
+    ) : (
+      <div class="gallery-item">
+        <img src={file} alt={caption || ''} loading="lazy" />
+      </div>
+    );
+  })}
+</div>

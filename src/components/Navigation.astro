@@ -1,0 +1,38 @@
+---
+interface Props {
+  currentPage?: string;
+}
+
+const { currentPage = '' } = Astro.props;
+const base = import.meta.env.BASE_URL;
+
+const navItems = [
+  { href: `${base}`, label: 'Startseite', id: 'index' },
+  { href: `${base}geschichte/`, label: 'Geschichte', id: 'geschichte' },
+  { href: `${base}badenweiler/`, label: 'Badenweiler', id: 'badenweiler' },
+  { href: `${base}feuersetzparagenese/`, label: 'Feuersetzparagenese', id: 'feuersetzparagenese' },
+  { href: `${base}begleitende-mineralien/`, label: 'Begleitende Mineralien', id: 'begleitende-mineralien' },
+  { href: `${base}museum/`, label: 'Museum & Wanderweg', id: 'museum' },
+];
+---
+<nav class="site-nav" aria-label="Hauptnavigation">
+  <a href={`${base}`} class="nav-logo">Feuersetzen<br /><span style="font-size:0.85rem;font-weight:400;color:var(--color-text-secondary)">Badenweiler</span></a>
+
+  <div class="nav-section-title">Kapitel</div>
+  <ul class="nav-links">
+    {navItems.map(item => (
+      <li>
+        <a href={item.href} class={currentPage === item.id ? 'active' : ''}>
+          {item.label}
+        </a>
+      </li>
+    ))}
+  </ul>
+
+  <div class="nav-section-title" style="margin-top:1.5rem">Quellen</div>
+  <ul class="nav-links">
+    <li><a href="https://de.wikipedia.org/wiki/Feuersetzen" target="_blank" rel="noopener">Wikipedia</a></li>
+    <li><a href="https://lgrbwissen.lgrb-bw.de/historische-bergbau-mineralien-badenweiler-im-schwarzwald" target="_blank" rel="noopener">LGRB BW</a></li>
+    <li><a href="http://www.schwarzwald-mineralien.de/Badenweiler_Galerie.html" target="_blank" rel="noopener">Schwarzwald-Mineralien</a></li>
+  </ul>
+</nav>

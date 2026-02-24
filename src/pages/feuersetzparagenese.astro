@@ -1,0 +1,89 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import MineralCard from '../components/MineralCard.astro';
+import SupplementaryBlock from '../components/SupplementaryBlock.astro';
+import slidesData from '../content/slides.json';
+
+const chapter = slidesData.chapters.find((c: any) => c.id === 'feuersetzparagenese');
+const minerals = chapter?.minerals || [];
+---
+<BaseLayout title="Feuersetzparagenese" currentPage="feuersetzparagenese">
+  <SectionHeader
+    title="Feuersetzparagenese"
+    subtitle="Die durch Hitze entstandene Mineralvergesellschaftung"
+  />
+
+  <section class="section">
+    <p class="section-intro">
+      Der Begriff „Feuersetzparagenese" wurde 1988 und 1994 von Arthur Wittern geprägt.
+      Er beschreibt die Mineralvergesellschaftung, die durch die extreme Hitzeeinwirkung beim
+      Feuersetzen auf die primären Erze (Galenit, Chalkopyrit) in Verbindung mit Wasser und
+      atmosphärischen Einflüssen über Jahrhunderte hinweg entstanden ist. Das Leitmineral dieser
+      Paragenese ist Elyit.
+    </p>
+
+    <SupplementaryBlock
+      sourceLabel="Ergänzende Information"
+      sourceUrl="https://www.rub-kleinander.de/feuersetzparagenese"
+      sourceName="rub-kleinander.de – Feuersetzparagenese"
+    >
+      <p>
+        Die Feuersetzparagenese von Badenweiler ist eine besondere Mineralvergesellschaftung, die durch
+        den historischen Bergbau mit dem Feuersetzen-Verfahren in den extrem harten Quarzriffgesteinen
+        entstanden ist. Die intensive Hitze beim Feuersetzen führte zur Aufschmelzung der sulfidischen
+        Erze, insbesondere Galenit (PbS) und Chalkopyrit (CuFeS₂). In der Folge bildeten sich durch
+        Verwitterung und Oxidation über Jahrhunderte hinweg charakteristische sekundäre Blei- und
+        Kupfermineralien.
+      </p>
+    </SupplementaryBlock>
+
+    <nav style="margin: 2rem 0; padding: 1.5rem; background: var(--color-bg-card); border-radius: var(--radius-lg); border: 1px solid var(--color-border);">
+      <h3 class="mt-0" style="margin-bottom: 1rem;">Mineralien auf dieser Seite</h3>
+      <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+        {minerals.map((m: any) => (
+          <a href={`#${m.id}`} style="padding: 0.25rem 0.75rem; background: var(--color-bg-tertiary); border-radius: var(--radius-sm); font-size: 0.85rem; color: var(--color-text-secondary);">
+            {m.name}
+          </a>
+        ))}
+      </div>
+    </nav>
+
+    {minerals.map((mineral: any) => (
+      <MineralCard
+        id={mineral.id}
+        name={mineral.name}
+        formula={mineral.formula}
+        slides={mineral.slides}
+      />
+    ))}
+  </section>
+
+  <SupplementaryBlock
+    sourceLabel="Ergänzende Information"
+    sourceUrl="https://de.wikipedia.org/wiki/Elyit"
+    sourceName="Wikipedia – Elyit"
+  >
+    <p>
+      Elyit (Pb₄Cu(SO₄)(OH)₂·O₂·H₂O) ist ein seltenes Sulfat-Mineral, das violette, seidig
+      glänzende, faserige Kristallaggregate bildet. Es wurde 1964 in der Ward Mine (Silver King Mine)
+      in Nevada entdeckt und nach John Ely benannt, einer wichtigen Persönlichkeit in der frühen
+      Bergbaugeschichte des östlichen Nevada. Elyit bildet sich sekundär in der Oxidationszone von
+      Sulfid-Lagerstätten und gilt bei Badenweiler als das Leitmineral der Feuersetzparagenese.
+    </p>
+  </SupplementaryBlock>
+
+  <SupplementaryBlock
+    sourceLabel="Ergänzende Information"
+    sourceUrl="https://www.mindat.org/min-1382.html"
+    sourceName="Mindat.org – Elyite"
+  >
+    <p>
+      Elyit kristallisiert im monoklinen Kristallsystem (Raumgruppe P2₁/m). Die Härte beträgt 2–2,5
+      auf der Mohs-Skala, die Dichte liegt bei 6,37 g/cm³. Die charakteristische violette Farbe
+      und der seidig-perlmuttartige Glanz machen Elyit zu einem begehrten Sammlermineral.
+      Neben Badenweiler sind weitere bekannte Fundorte: Tsumeb (Namibia), Broken Hill (Australien)
+      und die Typlokalität in Nevada (USA).
+    </p>
+  </SupplementaryBlock>
+</BaseLayout>

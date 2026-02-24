@@ -1,0 +1,86 @@
+---
+import { Image } from 'astro:assets';
+
+interface SlideData {
+  number: number;
+  texts: string[];
+  notes: string;
+  images: string[];
+}
+
+interface Props {
+  id: string;
+  name: string;
+  formula?: string;
+  slides: SlideData[];
+}
+
+const { id, name, formula, slides } = Astro.props;
+
+const allImages: { file: string; caption: string }[] = [];
+const allTexts: string[] = [];
+const allNotes: string[] = [];
+
+for (const slide of slides) {
+  for (const img of slide.images) {
+    const caption = slide.texts.filter(t => t.trim().length > 2).join(' – ') || name;
+    allImages.push({ file: img, caption });
+  }
+  for (const t of slide.texts) {
+    const cleaned = t.trim();
+    if (cleaned.length > 2 && !allTexts.includes(cleaned)) {
+      allTexts.push(cleaned);
+    }
+  }
+  const notesCleaned = (slide.notes || '').replace(/^\d+\s*\d*\s*/, '').trim();
+  if (notesCleaned.length > 5 && !allNotes.some(n => n.startsWith(notesCleaned.substring(0, 30)))) {
+    allNotes.push(notesCleaned);
+  }
+}
+
+const imageModules = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/*.*', { eager: true });
+
+function getImage(filename: string) {
+  const key = `/src/assets/images/${filename}`;
+  return imageModules[key]?.default;
+}
+
+const galleryClass = allImages.length === 1 ? 'image-gallery single' : allImages.length === 2 ? 'image-gallery dual' : 'image-gallery';
+---
+<div class="mineral-section" id={id}>
+  <div class="mineral-header">
+    <h3 class="mineral-name mt-0">{name}</h3>
+    {formula && <span class="mineral-formula" set:html={formula} />}
+  </div>
+
+  {allNotes.length > 0 && (
+    <div class="notes-text">
+      {allNotes.map(note => <p>{note}</p>)}
+    </div>
+  )}
+
+  <div class={galleryClass}>
+    {allImages.map(({ file, caption }) => {
+      const imageSrc = getImage(file);
+      return imageSrc ? (
+        <div class="gallery-item">
+          <Image
+            src={imageSrc}
+            alt={caption}
+            width={800}
+            quality={80}
+            format="webp"
+            loading="lazy"
+          />
+          <div class="gallery-caption">{caption}</div>
+        </div>
+      ) : (
+        <div class="gallery-item">
+          <img src={file} alt={caption} loading="lazy" />
+        </div>
+      );
+    })}
+  </div>
+
+  <slot />
+</div>

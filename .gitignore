@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.astro/
+pptx_extracted/
+Feuersetzen-Feuersetzparagenese.zip
+*.pptx
+pptx_extracted_content.json
+*.log
+.DS_Store
+Thumbs.db
+.env
+.env.*

@@ -1,0 +1,74 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import MineralCard from '../components/MineralCard.astro';
+import SupplementaryBlock from '../components/SupplementaryBlock.astro';
+import slidesData from '../content/slides.json';
+
+const chapter = slidesData.chapters.find((c: any) => c.id === 'begleitende-mineralien');
+const minerals = chapter?.minerals || [];
+---
+<BaseLayout title="Begleitende Mineralien" currentPage="begleitende-mineralien">
+  <SectionHeader
+    title="Begleitende Mineralien"
+    subtitle="Die mineralogische Vielfalt von Badenweiler"
+  />
+
+  <section class="section">
+    <p class="section-intro">
+      Neben den typischen Mineralien der Feuersetzparagenese finden sich in Badenweiler
+      zahlreiche begleitende Mineralien, die teils primär hydrothermaler Herkunft sind, teils
+      durch sekundäre Verwitterungsprozesse entstanden. Die Vielfalt reicht von Gangmineralien
+      wie Quarz, Baryt und Fluorit über Edelmetalle wie gediegenes Silber bis hin zu seltenen
+      Sekundärmineralien.
+    </p>
+
+    <nav style="margin: 2rem 0; padding: 1.5rem; background: var(--color-bg-card); border-radius: var(--radius-lg); border: 1px solid var(--color-border);">
+      <h3 class="mt-0" style="margin-bottom: 1rem;">Mineralien auf dieser Seite</h3>
+      <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+        {minerals.map((m: any) => (
+          <a href={`#${m.id}`} style="padding: 0.25rem 0.75rem; background: var(--color-bg-tertiary); border-radius: var(--radius-sm); font-size: 0.85rem; color: var(--color-text-secondary);">
+            {m.name}
+          </a>
+        ))}
+      </div>
+    </nav>
+
+    {minerals.map((mineral: any) => (
+      <MineralCard
+        id={mineral.id}
+        name={mineral.name}
+        formula={mineral.formula}
+        slides={mineral.slides}
+      />
+    ))}
+  </section>
+
+  <SupplementaryBlock
+    sourceLabel="Ergänzende Information"
+    sourceUrl="http://www.schwarzwald-mineralien.de/Badenweiler_Galerie.html"
+    sourceName="Schwarzwald-Mineralien.de – Mineralien-Galerie Badenweiler"
+  >
+    <p>
+      Badenweiler ist besonders bekannt für exzellente Sekundärmineralien des Bleis. Anglesit und
+      Cerussit kommen in perfekten Kristallen verschiedener Formen vor. Pyromorphit bildet teilweise
+      fassförmige, grüne Kristalle, während Mimetesit in honiggelben Nadeln auftritt. Wulfenit
+      zeigt die für Badenweiler typischen, dünnen, orangefarbenen Tafeln. Die Vielfalt der
+      Blei-Sekundärmineralien macht Badenweiler zu einem der bedeutendsten Fundorte im Schwarzwald.
+    </p>
+  </SupplementaryBlock>
+
+  <SupplementaryBlock
+    sourceLabel="Ergänzende Information"
+    sourceUrl="https://lgrbwissen.lgrb-bw.de/historische-bergbau-mineralien-badenweiler-im-schwarzwald"
+    sourceName="LGRB Baden-Württemberg – Bergbau und Mineralien Badenweiler"
+  >
+    <p>
+      Die primäre Vererzung besteht hauptsächlich aus Galenit (Bleiglanz, PbS) und Chalkopyrit
+      (Kupferkies, CuFeS₂), eingebettet in Quarz als Gangmaterial, begleitet von Baryt und Fluorit.
+      Sphalerit (Zinkblende) kommt untergeordnet vor. Gediegenes Silber findet sich als Begleiter
+      des Galenits und wurde in mikroskopischen Einschlüssen nachgewiesen. Die Oxidations- und
+      Verwitterungszone lieferte eine reiche Palette an Sekundärmineralien.
+    </p>
+  </SupplementaryBlock>
+</BaseLayout>

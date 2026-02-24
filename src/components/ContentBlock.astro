@@ -1,0 +1,42 @@
+---
+import ImageGallery from './ImageGallery.astro';
+
+interface SlideData {
+  number: number;
+  texts: string[];
+  notes: string;
+  images: string[];
+}
+
+interface Props {
+  slide: SlideData;
+  showNotes?: boolean;
+}
+
+const { slide, showNotes = true } = Astro.props;
+
+const texts = slide.texts.filter(t => t.trim().length > 2);
+const notesCleaned = (slide.notes || '').replace(/^\d+\s*\d*\s*/, '').trim();
+const images = slide.images.map(img => ({
+  file: img,
+  caption: texts[0] || '',
+}));
+const layout = images.length === 1 ? 'single' as const : images.length === 2 ? 'dual' as const : 'grid' as const;
+---
+<div class="content-block" id={`slide-${slide.number}`}>
+  {texts.length > 0 && (
+    <div class="slide-text">
+      {texts.map(t => <p><strong>{t}</strong></p>)}
+    </div>
+  )}
+
+  {images.length > 0 && (
+    <ImageGallery images={images} layout={layout} />
+  )}
+
+  {showNotes && notesCleaned.length > 5 && (
+    <div class="notes-text">
+      <p>{notesCleaned}</p>
+    </div>
+  )}
+</div>

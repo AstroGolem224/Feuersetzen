@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import ContentBlock from '../components/ContentBlock.astro';
+import SupplementaryBlock from '../components/SupplementaryBlock.astro';
+import slidesData from '../content/slides.json';
+
+const chapter = slidesData.chapters.find((c: any) => c.id === 'museum');
+const slides = chapter?.slides || [];
+---
+<BaseLayout title="Museum & Wanderweg" currentPage="museum">
+  <SectionHeader
+    title="Museum & Wanderweg"
+    subtitle="Badenweiler erleben"
+  />
+
+  <section class="section">
+    <p class="section-intro">
+      Die Geschichte des Bergbaus und die faszinierenden Mineralien von Badenweiler können
+      vor Ort erlebt werden – auf dem geologisch-montanhistorischen Wanderweg und im
+      Kurparkmuseum.
+    </p>
+
+    {slides.map((slide: any) => (
+      <ContentBlock slide={slide} />
+    ))}
+  </section>
+
+  <SupplementaryBlock
+    sourceLabel="Ergänzende Information"
+    sourceUrl="http://www.schwarzwald-mineralien.de/Badenweiler_Bergbau.html"
+    sourceName="Schwarzwald-Mineralien.de – Bergbau-Galerie Badenweiler"
+  >
+    <p>
+      Der geologisch-montanhistorische Wanderweg wurde im Mai 2012 eröffnet und führt
+      entlang der wichtigsten Bergbauspuren am Quarzriff. Informationstafeln erläutern die
+      Geologie, die Bergbaugeschichte und die Besonderheiten der Feuersetzparagenese. Der
+      Startpunkt befindet sich bei der ehemaligen Schürfstelle. Ein zweiter Startpunkt ist
+      beim Kurhaus.
+    </p>
+    <p>
+      Das Kurparkmuseum wurde im Juni 2016 eröffnet und zeigt unter anderem Vitrinen mit
+      Bergbau- und Mineralienexponaten aus Badenweiler. Die Ausstellung wurde von engagierten
+      Mineraliensammlern der Region gestaltet.
+    </p>
+  </SupplementaryBlock>
+</BaseLayout>

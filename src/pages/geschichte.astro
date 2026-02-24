@@ -1,0 +1,69 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import ContentBlock from '../components/ContentBlock.astro';
+import SupplementaryBlock from '../components/SupplementaryBlock.astro';
+import slidesData from '../content/slides.json';
+
+const chapter = slidesData.chapters.find((c: any) => c.id === 'geschichte');
+const slides = chapter?.slides || [];
+---
+<BaseLayout title="Geschichte des Feuersetzens" currentPage="geschichte">
+  <SectionHeader
+    title="Geschichte des Feuersetzens"
+    subtitle="Eine der ältesten Abbautechniken der Menschheit"
+  />
+
+  <section class="section">
+    <p class="section-intro">
+      Beim „Feuersetzen" oder „Brände setzen" handelt es sich um eines der ältesten Abbauverfahren
+      von Erzen und Gesteinen. Diese Technik wurde von der Bronzezeit bis ins 19. Jahrhundert eingesetzt,
+      bevor sie durch Sprengstoff abgelöst wurde.
+    </p>
+
+    {slides.map((slide: any) => (
+      <ContentBlock slide={slide} />
+    ))}
+  </section>
+
+  <SupplementaryBlock
+    sourceLabel="Ergänzende Information"
+    sourceUrl="https://de.wikipedia.org/wiki/Feuersetzen"
+    sourceName="Wikipedia – Feuersetzen"
+  >
+    <p>
+      Das Feuersetzen war bis zur Einführung des Schießens mit Schwarzpulver (ab ca. 1627) die
+      einzige Möglichkeit, besonders hartes Gestein im Bergbau zu lösen. Die Methode basiert auf
+      dem Prinzip der thermischen Spannungsrisse: Durch intensives Erhitzen des Gesteins mit Holzfeuern
+      und anschließendes Abkühlen (teilweise mit Wasser) entstehen Risse, die das Gestein brüchig machen.
+      Das zerklüftete Gestein konnte dann mit Schlägel und Eisen abgebaut werden.
+    </p>
+  </SupplementaryBlock>
+
+  <SupplementaryBlock
+    sourceLabel="Ergänzende Information"
+    sourceUrl="https://de.wikipedia.org/wiki/Georgius_Agricola"
+    sourceName="Wikipedia – Georgius Agricola"
+  >
+    <p>
+      Georgius Agricola (1494–1555) war ein sächsischer Arzt, Apotheker und Wissenschaftler, der als
+      „Vater der Mineralogie" gilt. Sein Hauptwerk „De Re Metallica" (1556, posthum veröffentlicht)
+      ist die erste systematische Darstellung des Berg- und Hüttenwesens. Die darin enthaltenen
+      detaillierten Holzschnitte – darunter auch Darstellungen des Feuersetzens – sind bis heute
+      eine der wichtigsten Quellen zur historischen Bergbautechnik.
+    </p>
+  </SupplementaryBlock>
+
+  <SupplementaryBlock
+    sourceLabel="Ergänzende Information"
+    sourceUrl="https://lgrbwissen.lgrb-bw.de/historische-bergbau-mineralien-badenweiler-im-schwarzwald"
+    sourceName="LGRB Baden-Württemberg"
+  >
+    <p>
+      Das Feuersetzen hinterließ charakteristische Spuren im Gestein: glatt gerundete, ovale
+      Hohlräume (sogenannte „feuergesetzte Abbaue" oder „Verhaue"), die sich deutlich von den
+      eckigen Formen des mechanischen Abbaus unterscheiden. An den Wänden finden sich häufig
+      Rußspuren und durch die Hitze rötlich verfärbte Gesteine (geröteter Quarz).
+    </p>
+  </SupplementaryBlock>
+</BaseLayout>

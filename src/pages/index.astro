@@ -1,0 +1,106 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import { Image } from 'astro:assets';
+import slidesData from '../content/slides.json';
+
+const chapters = slidesData.chapters;
+const base = import.meta.env.BASE_URL;
+
+const imageModules = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/*.*', { eager: true });
+function getImage(filename: string) {
+  const key = `/src/assets/images/${filename}`;
+  return imageModules[key]?.default;
+}
+
+const chapterPreviews = [
+  {
+    id: 'geschichte',
+    title: 'Geschichte des Feuersetzens',
+    desc: 'Von der Bronzezeit bis Agricola – die älteste Abbautechnik der Menschheit',
+    href: `${base}geschichte/`,
+    previewImage: 'image7.jpeg',
+  },
+  {
+    id: 'badenweiler',
+    title: 'Badenweiler – Geologie & Bergbau',
+    desc: 'Das Quarzriff am Schwarzwaldrand und seine Bergbauspuren',
+    href: `${base}badenweiler/`,
+    previewImage: 'image14.jpeg',
+  },
+  {
+    id: 'feuersetzparagenese',
+    title: 'Feuersetzparagenese',
+    desc: 'Die durch Hitzeeinwirkung entstandene Mineralvergesellschaftung mit Elyit als Leitmineral',
+    href: `${base}feuersetzparagenese/`,
+    previewImage: 'image40.jpeg',
+  },
+  {
+    id: 'begleitende-mineralien',
+    title: 'Begleitende Mineralien',
+    desc: 'Quarz, Baryt, Fluorit, Silber, Pyromorphit und weitere Mineralien von Badenweiler',
+    href: `${base}begleitende-mineralien/`,
+    previewImage: 'image119.jpeg',
+  },
+  {
+    id: 'museum',
+    title: 'Museum & Wanderweg',
+    desc: 'Der geologisch-montanhistorische Wanderweg und das Kurparkmuseum',
+    href: `${base}museum/`,
+    previewImage: 'image156.jpeg',
+  },
+];
+---
+<BaseLayout title="Startseite" currentPage="index">
+  <Hero
+    title="Feuersetzen"
+    subtitle="Eine historische Abbautechnik von Erzen und die Mineralien der Feuersetzparagenese"
+    lead="Am Beispiel von Badenweiler im Schwarzwald – eine umfassende Dokumentation der Bergbaugeschichte, Geologie und der einzigartigen Mineralvergesellschaftung, die durch das jahrtausendealte Feuersetzen entstanden ist."
+  />
+
+  <h2>Kapitelübersicht</h2>
+
+  <div class="toc-grid">
+    {chapterPreviews.map(ch => {
+      const img = getImage(ch.previewImage);
+      return (
+        <a href={ch.href} class="toc-card">
+          {img && (
+            <Image
+              src={img}
+              alt={ch.title}
+              width={600}
+              height={300}
+              quality={75}
+              format="webp"
+              class="toc-card-image"
+            />
+          )}
+          <div class="toc-card-body">
+            <div class="toc-card-title">{ch.title}</div>
+            <p class="toc-card-desc">{ch.desc}</p>
+          </div>
+        </a>
+      );
+    })}
+  </div>
+
+  <section class="section" style="margin-top: 3rem;">
+    <h2>Über diese Dokumentation</h2>
+    <p>
+      Diese Website dokumentiert die historische Bergbautechnik des Feuersetzens und die daraus
+      entstandene einzigartige Mineralvergesellschaftung – die <em>Feuersetzparagenese</em> – am
+      Beispiel des Quarzriffs bei Badenweiler im südlichen Schwarzwald.
+    </p>
+    <p>
+      Der Begriff „Feuersetzparagenese" wurde 1988 und 1994 von Arthur Wittern geprägt. Er beschreibt
+      die charakteristische Mineralbildung, die durch die extreme Hitzeeinwirkung beim Feuersetzen auf
+      die sulfidischen Erze (vor allem Galenit und Chalkopyrit) in Verbindung mit Wasser entstanden ist.
+    </p>
+    <p>
+      Die Dokumentation basiert auf einer umfangreichen Präsentation von Mineraliensammlern aus
+      Badenweiler und wurde um recherchierte Zusatzinformationen aus wissenschaftlichen Quellen ergänzt.
+      Ergänzende Inhalte sind als solche gekennzeichnet und mit Quellenangaben versehen.
+    </p>
+  </section>
+</BaseLayout>

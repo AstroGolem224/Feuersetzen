@@ -1,0 +1,22 @@
+{
+  "name": "feuersetzen-website",
+  "version": "1.0.0",
+  "description": "Feuersetzen - Historische Bergbautechnik und Mineralien der Feuersetzparagenese",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AstroGolem224/learn-ai.git"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.0",
+    "astro": "^5.17.3",
+    "sharp": "^0.34.5"
+  }
+}

@@ -1,0 +1,16 @@
+---
+interface Props {
+  sourceLabel: string;
+  sourceUrl: string;
+  sourceName: string;
+}
+
+const { sourceLabel, sourceUrl, sourceName } = Astro.props;
+---
+<aside class="supplementary-block">
+  <span class="label">{sourceLabel}</span>
+  <slot />
+  <div class="source">
+    Quelle: <a href={sourceUrl} target="_blank" rel="noopener">{sourceName}</a>
+  </div>
+</aside>

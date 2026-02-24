@@ -1,0 +1,130 @@
+---
+import Navigation from '../components/Navigation.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  currentPage?: string;
+}
+
+const { title, description = 'Feuersetzen – Historische Bergbautechnik und Mineralien der Feuersetzparagenese am Beispiel von Badenweiler', currentPage = '' } = Astro.props;
+const base = import.meta.env.BASE_URL;
+---
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={description} />
+  <title>{title} | Feuersetzen Badenweiler</title>
+  <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+</head>
+<body>
+  <button class="nav-toggle" aria-label="Navigation öffnen" id="nav-toggle">&#9776;</button>
+  <div class="page-wrapper">
+    <Navigation currentPage={currentPage} />
+    <main class="main-content">
+      <slot />
+      <footer class="site-footer">
+        <p>&copy; 2026 Hj. Becherer</p>
+      </footer>
+    </main>
+  </div>
+
+  <div class="lightbox-overlay" id="lightbox">
+    <button class="lightbox-close" aria-label="Schließen">&times;</button>
+    <button class="lightbox-nav lightbox-prev" aria-label="Vorheriges Bild">&#8249;</button>
+    <button class="lightbox-nav lightbox-next" aria-label="Nächstes Bild">&#8250;</button>
+    <div class="lightbox-content">
+      <img id="lightbox-img" src="" alt="" />
+      <div class="lightbox-caption" id="lightbox-caption"></div>
+    </div>
+  </div>
+
+  <script>
+    const navToggle = document.getElementById('nav-toggle');
+    const siteNav = document.querySelector('.site-nav');
+    if (navToggle && siteNav) {
+      navToggle.addEventListener('click', () => {
+        siteNav.classList.toggle('open');
+      });
+      document.addEventListener('click', (e) => {
+        if (siteNav.classList.contains('open') &&
+            !siteNav.contains(e.target as Node) &&
+            e.target !== navToggle) {
+          siteNav.classList.remove('open');
+        }
+      });
+    }
+
+    // Lightbox
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement;
+    const lightboxCaption = document.getElementById('lightbox-caption');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    let currentImages: { src: string; alt: string }[] = [];
+    let currentIndex = 0;
+
+    function openLightbox(src: string, alt: string) {
+      if (!lightbox || !lightboxImg || !lightboxCaption) return;
+      currentImages = Array.from(galleryItems).map(item => {
+        const img = item.querySelector('img');
+        return { src: img?.src || '', alt: img?.alt || '' };
+      });
+      currentIndex = currentImages.findIndex(i => i.src === src);
+      if (currentIndex === -1) currentIndex = 0;
+      showImage();
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function showImage() {
+      if (!lightboxImg || !lightboxCaption || currentImages.length === 0) return;
+      lightboxImg.src = currentImages[currentIndex].src;
+      lightboxImg.alt = currentImages[currentIndex].alt;
+      lightboxCaption.textContent = currentImages[currentIndex].alt;
+    }
+
+    function closeLightbox() {
+      if (!lightbox) return;
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    galleryItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const img = item.querySelector('img');
+        if (img) openLightbox(img.src, img.alt);
+      });
+    });
+
+    lightbox?.querySelector('.lightbox-close')?.addEventListener('click', closeLightbox);
+    lightbox?.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+    lightbox?.querySelector('.lightbox-prev')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length;
+      showImage();
+    });
+    lightbox?.querySelector('.lightbox-next')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      currentIndex = (currentIndex + 1) % currentImages.length;
+      showImage();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox?.classList.contains('active')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') {
+        currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length;
+        showImage();
+      }
+      if (e.key === 'ArrowRight') {
+        currentIndex = (currentIndex + 1) % currentImages.length;
+        showImage();
+      }
+    });
+  </script>
+</body>
+</html>
