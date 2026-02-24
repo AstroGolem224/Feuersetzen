@@ -3,7 +3,7 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://astrogolem224.github.io',
-  base: '/Feuersetzen/',
+  base: '/feuersetzen/',
   integrations: [sitemap()],
   image: {
     service: {
